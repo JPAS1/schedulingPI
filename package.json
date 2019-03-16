@@ -4,6 +4,7 @@
   "description": "Programa para exibição e demonstração de algoritmos de escalonamento",
   "directories": {},
   "dependencies": {
+    "bootstrap": "^4.3.1",
     "jquery": "^3.3.1"
   },
   "devDependencies": {},
@@ -12,6 +13,10 @@
     "type": "git",
     "url": "git+https://github.com/JPAS1/schedulingPI.git"
   },
+  "ignore": [
+    "**/.*",
+    "node_modules"
+  ],
   "author": "jpas1",
   "homepage": "https://",
   "private": true
