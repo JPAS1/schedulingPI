@@ -5,9 +5,9 @@
   "directories": {},
   "dependencies": {
     "bootstrap": "^4.3.1",
+    "fontawesome": "^5.6.3",
     "jquery": "^3.3.1"
   },
-  "devDependencies": {},
   "scripts": {},
   "repository": {
     "type": "git",
