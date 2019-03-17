@@ -1,0 +1,25 @@
+{
+  "name": "scheduling-pi",
+  "version": "1.0.0",
+  "description": "Programa para exibição e demonstração de algoritmos de escalonamento",
+  "directories": {},
+  "dependencies": {
+    "bootstrap": "^4.3.1",
+    "jquery": "^3.3.1"
+  },
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JPAS1/schedulingPI.git"
+  },
+  "ignore": [
+    "**/.*",
+    "node_modules"
+  ],
+  "author": "jpas1",
+  "homepage": "https://",
+  "private": true,
+  "devDependencies": {
+    "@fortawesome/fontawesome-free": "^5.7.2"
+  }
+}
