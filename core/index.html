@@ -14,8 +14,8 @@
             <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">PI - Algoritmos de Escalonamento</a>
         </nav>
         <div id="content-div" class="container-fluid">
-            <div class="row">
-                <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+            <div id="content-row" class="row">
+                <nav id="menubar" class="col-md-2 d-none d-md-block bg-light">
                     <div class="sidebar-sticky">
                         <ul class="nav flex-column">
                             <li class="nav-item">
@@ -36,6 +36,17 @@
                         </ul>
                     </div>
                 </nav>
+                <div class="col-md-10">
+                    <div id="process-img-row" class="row"></div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <img class="stock-img" src="img/stock.png">
+                        </div>
+                        <div class="col-md-3 offset-md-5">
+                            <img class="cpu-img" src="img/cpu.png">
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </body>
