@@ -24,24 +24,70 @@ function createProcess(processArr){
     }
 }
 
-function move(obj){
+function moveForward(obj, dir, until){
     var inter = setInterval(function(){frame(obj)}, 30)
     function frame(obj){
-        var top = obj.css('top').replace(/[^-\d\.]/g, '')*1+1
-        if(top > 200)
+        var top = obj.css(dir).replace(/[^-\d\.]/g, '')*1
+        if(top > until)
             clearInterval(inter)
         else
-            obj.css('top', top)
+            obj.css(dir, top+2)
+    }
+}
+
+function moveBack(obj, dir, until){
+    var inter = setInterval(function(){frame(obj)}, 30)
+    function frame(obj){
+        var top = obj.css(dir).replace(/[^-\d\.]/g, '')*1
+        if(top < until)
+            clearInterval(inter)
+        else
+            obj.css(dir, top-2)
     }
 }
 
 function sendProcessToStock(processArr, i){
-    i = (typeof i !== 'undefined') ? i : 0;
+    var i = (typeof i !== 'undefined') ? i : 0;
     if(i < processArr.length){
         var obj = $("#process-img-"+processArr[i].name)
         obj.css('left', '10%')
-        move(obj)
+        moveForward(obj, 'top', 200)
         setTimeout(function(){sendProcessToStock(processArr, ++i)}, 3000) 
+    }else{
+        setTimeout(startLift, 2000);
+    }
+}
+
+function startLift(){
+    if(processElements.length > 0){
+        var obj = $("#lift-img-div")
+        var label = processElements[0].name+'('+processElements[0].value+")"
+        $("#lift-img-div label").text(label).show()
+        $("#lift-img").attr('src','img/process_half_right.png')
+        moveForward(obj, 'left', 850)
+        comeBackLift(obj)
+    }
+}
+
+function comeBackLift(obj){
+    var maxLeft = obj.css('left').replace(/[^-\d\.]/g, '')*1
+    if(maxLeft < 850)
+        setTimeout(function(){comeBackLift(obj)}, 3000)
+    else{
+        $("#lift-img-div label").hide()
+        $("#lift-img").attr('src','img/process_empty_left.png')
+        moveBack(obj, 'left', 55)
+        nextLift()
+    }
+}
+
+function nextLift(){
+    var maxLeft = $("#lift-img-div").css('left').replace(/[^-\d\.]/g, '')*1
+    if(maxLeft > 55)
+        setTimeout(nextLift, 3000)
+    else{
+        processElements.shift()
+        startLift()
     }
 }
 
