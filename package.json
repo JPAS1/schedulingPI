@@ -17,7 +17,7 @@
     "node_modules"
   ],
   "author": "jpas1",
-  "homepage": "https://",
+  "homepage": "https://core/index.html",
   "private": true,
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^5.7.2"
