@@ -67,18 +67,10 @@ function scheduling(arr){
     $.ajax({
         type: 'GET',
         async: false,
-        crossDomain: true,
-        headers: {  'Access-Control-Allow-Origin': '*' },
         url: 'http://api-pi.herokuapp.com/fifo'
     }).done(function(msg){
-        console.log('return', msg)
-        arrayToProcess = 2
-        console.log('arrayToProcessVALUE', arrayToProcess)
+        arrayToProcess = msg.value
     });
-
-    // $.get('http://api-pi.herokuapp.com/fifo').done(function(msg){
-    //     console.log('get',msg)
-    // })
 }
 
 function startLift(){
