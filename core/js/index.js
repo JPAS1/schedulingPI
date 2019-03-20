@@ -61,6 +61,7 @@ function sendProcessToStock(processArr, i){
     }else{
         setTimeout(startLift, 2000);
     }
+    
 }
 
 function scheduling(arr){
