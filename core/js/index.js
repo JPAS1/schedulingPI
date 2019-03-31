@@ -9,7 +9,7 @@ function inicializeProcess(){
 function appendProcessDivs(elem){
     $('#process-img-row').append( 
         `
-            <div id="process-img-`+elem.name+`" class="process-img-div">
+            <div id="process-img-`+elem.name+`" data-time="`+elem.value+`" class="process-img-div">
                 <label>`+elem.name+`(`+elem.value+`)</label>
                 <img class="process-img" src="img/process.png">
             </div>
@@ -68,7 +68,7 @@ function scheduling(arr){
     $.ajax({
         type: 'GET',
         async: false,
-        url: 'http://api-pi.herokuapp.com/fifo'
+        url: 'https://app-javaapi.herokuapp.com/value'
     }).done(function(msg){
         arrayToProcess = msg.value
     });
@@ -89,11 +89,17 @@ function startLift(){
 function comeBackLift(obj){
     var maxLeft = obj.css('left').replace(/[^-\d\.]/g, '')*1
     if(maxLeft < 850)
-        setTimeout(function(){comeBackLift(obj)}, 3000)
+        setTimeout(function(){comeBackLift(obj)}, 1000)
     else{
         $("#lift-img-div label").hide()
         $("#lift-img").attr('src','img/process_empty_left.png')
-        moveBack(obj, 'left', 55, nextLift)
+        var elem = processElements[arrayToProcess]
+        var time = elem.value*100
+        setTimeout(function(){
+            moveBack(obj, 'left', 55, nextLift)
+            var img = $('#process-img-'+elem.name).css('left', 850)
+            moveForward(img, 'top', 400, function(){moveBack(img, 'left', 750+(processElements.length*-55))})
+        }, time)
     }
 }
 
