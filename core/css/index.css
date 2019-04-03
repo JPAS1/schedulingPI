@@ -72,5 +72,22 @@ html, body{
     margin-top: 40px;
 }
 
-w458 -> w467
-h564 -> h509
+.stock-div label{
+    position: absolute;
+    text-transform: uppercase;
+    color: blue;
+    left: 80px;
+    width: 250px;
+    font-size: 16px;
+    z-index: -1;
+}
+
+
+.cpu-div label{
+    position: absolute;
+    text-transform: uppercase;
+    color: blue;
+    right: 80px;
+    font-size: 16px;
+    z-index: -1;
+}
