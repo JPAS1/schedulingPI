@@ -88,7 +88,6 @@ html, body{
     z-index: -1;
 }
 
-
 .cpu-div label{
     position: absolute;
     text-transform: uppercase;
@@ -96,4 +95,8 @@ html, body{
     right: 80px;
     font-size: 16px;
     z-index: -1;
+}
+
+.row-margin{
+    margin-bottom: 20px;
 }

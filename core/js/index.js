@@ -1,20 +1,8 @@
-function inicializeProcess(){
-    return [{id: 0, name: "P", value: 99},
-            {id: 1, name: "P", value: 10},
-            {id: 2, name: "P", value: 80},
-            {id: 3, name: "P", value: 20},
-            {id: 4, name: "P", value: 70},
-            {id: 5, name: "P", value: 30},
-            {id: 6, name: "P", value: 60},
-            {id: 7, name: "P", value: 40},
-            {id: 8, name: "P", value: 50}]
-}
-
 function appendProcessDivs(elem){
     $('#process-img-row').append( 
         `
-            <div id="process-img-`+elem.id+`" data-time="`+elem.value+`" class="process-img-div">
-                <label>`+elem.name+`: `+elem.value+`</label>
+            <div id="process-img-`+elem.id+`" data-time="`+elem.duracao+`" class="process-img-div">
+                <label>`+elem.id+`: `+elem.duracao+`</label>
                 <img class="process-img" src="img/process.png">
             </div>
         `)
@@ -91,7 +79,7 @@ function scheduling(arr){
         async: false,
         url: method
     }).done(function(msg){
-        arrayToProcess = msg.value
+        arrayToProcess = msg.duracao
     }).fail(function(){
         arrayToProcess = (rand==0) ? 0 : sjf(arr)
     });
@@ -101,9 +89,9 @@ function sjf(arr){
     var result = 0
     var minVal = 0
     for(var i=0; i < arr.length; i++){
-        if(i==0 || arr[i].value < minVal){
+        if(i==0 || arr[i].duracao < minVal){
             result = i
-            minVal = arr[i].value
+            minVal = arr[i].duracao
         }
     }
     return result;
@@ -113,7 +101,7 @@ function startLift(){
     if(processElements.length > 0){
         var obj = $("#lift-img-div")
         scheduling(processElements)
-        var label = processElements[arrayToProcess].name+': '+processElements[arrayToProcess].value
+        var label = processElements[arrayToProcess].id+': '+processElements[arrayToProcess].duracao
         $("#lift-img-div label").text(label).show()
         $("#lift-img").attr('src','img/process_half_right.png')
         moveForward(obj, 'left', 850, comeBackLift)
@@ -144,10 +132,39 @@ function nextLift(){
     startLift()
 }
 
+function startToProcess(){
+    $('#exampleModal').modal('hide')
+    sendProcessToStock(processElements)
+}
+
+function addItem(){
+    var itemDesc = $('#modalItemDesc').val()
+    var itemPrio = $('#modalItemPrio').val()
+    var itemDura = $('#modalItemDura').val()
+    var id = processElements.length
+    if(id > 6){
+        alert('Numero maximo de elementos adicionados!!!')
+        return false;
+    }else if(itemDesc == '' || itemPrio == '' || itemDura == ''){
+        alert('Favor informar todos os parâmetros!!!')
+        return false;
+    }
+        
+    processElements.push({id:id, prioridade: itemPrio, duracao: itemDura, descricao: itemDesc})
+    var elem = '<tr><td>'+itemDesc+'</td><td>'+itemPrio+'</td><td>'+itemDura+'</td></tr>'
+    $('#tableBody').append(elem)
+    $('#modalItemDesc').val('')
+    $('#modalItemPrio').val('')
+    $('#modalItemDura').val('')
+}
 
 $(document).ready(function(){
-    processElements = inicializeProcess()
+    processElements=[]
     arrayToProcess = 0
-    createProcess(processElements)
-    setTimeout(function(){sendProcessToStock(processElements)}, 3000)
+    $('#exampleModal').modal({
+        backdrop: 'static',
+        focus: true
+    })
+    $('#addTableItem').on('click', addItem)
+    $('#start').on('click',startToProcess)
 })

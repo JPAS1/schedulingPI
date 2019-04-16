@@ -24,7 +24,7 @@
                                 <img id="lift-img" src="">
                             </div>
                             <div class="stock-div">
-                                <img id='stockImg' class="stock-img" src="img/stock.gif">
+                                <img id='stockImg' class="stock-img" src="img/stock.png">
                                 <label for="stockImg">Fila de Processamento</label>
                             </div>
                         </div>
@@ -34,6 +34,53 @@
                                 <label for="">CPU</label>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal" id="exampleModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Parâmetros de Inicialização</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row justify-content-md-center row-margin">
+                            <div class="input-group col-md-4">
+                                <input type="number" id='quantum' class="form-control" placeholder="Quantum" aria-label="Quantum" aria-describedby="basic-addon1">
+                            </div>
+                        </div>
+                        <div class="row row-margin">
+                            <div class="input-group col-md-4">
+                                <input type="text" id='modalItemDesc' class="form-control" placeholder="Descrição" maxlength="10" aria-label="Descrição" aria-describedby="basic-addon1">
+                            </div>
+                            <div class="input-group col-md-3">
+                                <input type="number" id='modalItemPrio' class="form-control" placeholder="Prioridade" aria-label="Prioridade" aria-describedby="basic-addon1">
+                            </div>
+                            <div class="input-group col-md-3">
+                                <input type="number" id='modalItemDura' class="form-control" placeholder="Duração" aria-label="Duração" aria-describedby="basic-addon1">
+                            </div>
+                            <div class="input-group col-md-2">
+                                <button type="button" id='addTableItem' class="btn btn-dark form-control">+</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                    <th scope="col">Desc.</th>
+                                    <th scope="col">Prioridade</th>
+                                    <th scope="col">Duração</th>
+                                    </tr>
+                                </thead>
+                                <tbody id='tableBody'>                                    
+                                </tbody>
+                            </table>
+                                      
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id='start' class="btn btn-success">INICIAR</button>
                     </div>
                 </div>
             </div>
