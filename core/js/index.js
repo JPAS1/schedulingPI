@@ -2,7 +2,7 @@ function appendProcessDivs(elem){
     $('#process-img-row').append( 
         `
             <div id="process-img-`+elem.id+`" data-time="`+elem.duracao+`" class="process-img-div">
-                <label>`+elem.id+`</label>
+                <label>P: `+elem.id+`</label>
                 <img class="process-img" src="img/process.png">
             </div>
         `)
@@ -122,8 +122,8 @@ function startLift(){
     if(processElements.length > 0){
         var obj = $("#lift-img-div")
         scheduling(processElements)
-        var label = processElements[scheduleData['posi']].id
-        $("#lift-img-div label").text(label).show()
+        var label = 'P: '+processElements[scheduleData['posi']].id
+        $("#lift-img-div label").text(label).show().css('left', '60px')
         $("#lift-img").attr('src','img/process_full_right.png')
         moveForward(obj, 'left', 850, comeBackLift)
     }
@@ -134,11 +134,13 @@ function comeBackLift(obj){
     if(maxLeft < 850)
         setTimeout(function(){comeBackLift(obj)}, 1000)
     else{
-        $("#lift-img-div label").hide()
-        if(scheduleData['remainingTime'] > 0)
+        if(scheduleData['remainingTime'] > 0){
             $("#lift-img").attr('src','img/process_half_left.png')
-        else
+            $("#lift-img-div label").css('left', '4px')
+        }else{
+            $("#lift-img-div label").hide()
             $("#lift-img").attr('src','img/process_empty_left.png')
+        }
         $("#cpu-img").attr('src','img/cpu_on.gif').css('max-height','270px')
         var elem = processElements[scheduleData['posi']]
         var time = scheduleData['processTime']*100
@@ -179,8 +181,8 @@ function addItem(){
     var itemDesc = $('#modalItemDesc').val()
     var itemPrio = $('#modalItemPrio').val()
     var itemDura = $('#modalItemDura').val()
-    var id = processElements.length
-    if(id > 6){
+    var id = processElements.length+1
+    if(id > 5){
         alert('Numero maximo de elementos adicionados!!!')
         return false;
     }else if(itemDesc == '' || itemPrio == '' || itemDura == ''){

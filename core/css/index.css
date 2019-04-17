@@ -43,6 +43,7 @@ html, body{
     text-transform: uppercase;
     bottom: 15px;
     left: 60px;
+    margin: 3px;
     font-size:9px;
 }
 
@@ -60,6 +61,7 @@ html, body{
 
 .process-img-div label{
     position: absolute;
+    margin-left: 10px;
     text-transform: uppercase;
 }
 
