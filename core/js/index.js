@@ -48,7 +48,7 @@ function sendProcessToStock(processArr, i){
     if(i < processArr.length){
         var obj = $("#process-img-"+processArr[i].id)
         obj.css('left', '10%')
-        moveForward(obj, 'top', 200)
+        moveForward(obj, 'top', 500)
         setTimeout(function(){sendProcessToStock(processArr, ++i)}, 3000) 
     }else{
         setTimeout(startLift, 2000);
@@ -125,7 +125,7 @@ function startLift(){
         var label = 'P: '+processElements[scheduleData['posi']].id
         $("#lift-img-div label").text(label).show().css('left', '60px')
         $("#lift-img").attr('src','img/process_full_right.png')
-        moveForward(obj, 'left', 850, comeBackLift)
+        moveForward(obj, 'left', 950, comeBackLift)
     }
 }
 
@@ -148,8 +148,8 @@ function comeBackLift(obj){
             $("#cpu-img").attr('src','img/cpu_off.png').css('max-height','250px')
             moveBack(obj, 'left', 55, nextLift)
             if(scheduleData['remainingTime'] == 0){
-                var img = $('#process-img-'+elem.id).css('left', 915).css('top','650')
-                moveForward(img, 'top', 400, function(){moveBack(img, 'left', 750+(processElements.length*-55))})
+                var img = $('#process-img-'+elem.id).css('left', 995).css('top','660')
+                moveForward(img, 'top', 650, function(){moveBack(img, 'left', 650+(processElements.length*-55))})
             }
         }, time)
     }

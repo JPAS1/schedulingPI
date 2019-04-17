@@ -1,12 +1,7 @@
 html, body{
     width: 100%;
     height: 100%;
-    background-image: url(../img/Fundo_PI.png);
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-size: cover;
-    background-color: #464646;
+    background-color: #343a40;
 }
 
 #top-navbar{
@@ -15,9 +10,15 @@ html, body{
 }
 
 #content-div{
-    margin-top: 20px;
+    /* margin-top: 20px;
     margin-bottom: 20px;
-    height: calc(95% - 40px);
+    height: calc(95% - 40px); */
+    width: 1280px;
+    height: 720px;
+    background-image: url(../img/Fundo_PI.png);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    margin: auto;
 }
 
 #content-row{
@@ -34,7 +35,7 @@ html, body{
 
 #lift-img-div{
     position: absolute;
-    top: 165px;
+    top: 415px;
     left: 55px;
 }
 
@@ -74,7 +75,8 @@ html, body{
     max-height: 250px;
     z-index: 20;
     width: 300px;
-    position: absolute
+    position: absolute;
+    bottom: -500px;
 }
 .stock-img{
     margin-top: 40px;
