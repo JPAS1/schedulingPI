@@ -47,6 +47,14 @@
                     <div class="modal-body">
                         <div class="row justify-content-md-center row-margin">
                             <div class="input-group col-md-4">
+                                <select id="schedulingType">
+                                    <option value="fcfs">First Come, First Served</option>
+                                    <option value="sjf">Shortest Job First</option>
+                                    <option value="priority">Por Prioridade</option>
+                                    <option value="rr">Round-Robin</option>
+                                </select>
+                            </div>
+                            <div class="input-group col-md-4">
                                 <input type="number" id='quantum' class="form-control" placeholder="Quantum" aria-label="Quantum" aria-describedby="basic-addon1">
                             </div>
                         </div>

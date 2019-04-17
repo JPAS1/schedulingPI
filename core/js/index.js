@@ -2,7 +2,7 @@ function appendProcessDivs(elem){
     $('#process-img-row').append( 
         `
             <div id="process-img-`+elem.id+`" data-time="`+elem.duracao+`" class="process-img-div">
-                <label>`+elem.id+`: `+elem.duracao+`</label>
+                <label>`+elem.id+`</label>
                 <img class="process-img" src="img/process.png">
             </div>
         `)
@@ -56,35 +56,51 @@ function sendProcessToStock(processArr, i){
     
 }
 
-function randomizer(init, last){
-    return Math.floor((Math.random() * last) + init);
-}
-
 function scheduling(arr){
-    var rand = randomizer(0, 2)
+    var rand = $('#schedulingType').val()
     switch(rand){
-        case 0:
-        var method = 'https://app-javapi.herokuapp.com/value'
+        case 'fcfs':
+        var result = fcfs(arr)
         break
-        case 1:
-        var method = 'https://app-javapi.herokuapp.com/value'
+        case 'sjf':
+        var result = sjf(arr)
+        break
+        case 'priority':
+        var result = priority(arr)
+        break
+        case 'rr':
+        var result = rr(arr)
         break
     }
+    scheduleData = result
 
-    $('.nav-link').addClass('disabled')
-    $('#navItem_'+rand).removeClass('disabled').addClass('active')
-
-    $.ajax({
-        type: 'GET',
-        async: false,
-        url: method
-    }).done(function(msg){
-        arrayToProcess = msg.duracao
-    }).fail(function(){
-        arrayToProcess = (rand==0) ? 0 : sjf(arr)
-    });
+    // $.ajax({
+    //     type: 'GET',
+    //     async: false,
+    //     url: method
+    // }).done(function(msg){
+    //     arrayToProcess = msg.duracao
+    // }).fail(function(){
+    //     arrayToProcess = (rand==0) ? 0 : sjf(arr)
+    // });
 }
 
+function fcfs(arr){
+    return {posi: 0, processTime: 0, remainingTime: 0}
+}
+function priority(arr){
+    var result = 0
+    var maxVal = 0
+    var durat = 0
+    for(var i=0; i < arr.length; i++){
+        if(i==0 || arr[i].prioridade > maxVal){
+            result = i
+            maxVal = arr[i].prioridade
+            durat = arr[i].duracao
+        }
+    }
+    return {posi: result, processTime: durat, remainingTime: 0};
+}
 function sjf(arr){
     var result = 0
     var minVal = 0
@@ -94,16 +110,21 @@ function sjf(arr){
             minVal = arr[i].duracao
         }
     }
-    return result;
+    return {posi: result, processTime: minVal, remainingTime: 0};
+}
+function rr(arr){
+    var quant = $('#quantum').val()
+    var remainingTime = arr[0].duracao-quant <= 0 ? 0 : arr[0].duracao-quant
+    return {posi: 0, processTime: arr[0].duracao, remainingTime: remainingTime}
 }
 
 function startLift(){
     if(processElements.length > 0){
         var obj = $("#lift-img-div")
         scheduling(processElements)
-        var label = processElements[arrayToProcess].id+': '+processElements[arrayToProcess].duracao
+        var label = processElements[scheduleData['posi']].id
         $("#lift-img-div label").text(label).show()
-        $("#lift-img").attr('src','img/process_half_right.png')
+        $("#lift-img").attr('src','img/process_full_right.png')
         moveForward(obj, 'left', 850, comeBackLift)
     }
 }
@@ -114,26 +135,43 @@ function comeBackLift(obj){
         setTimeout(function(){comeBackLift(obj)}, 1000)
     else{
         $("#lift-img-div label").hide()
-        $("#lift-img").attr('src','img/process_empty_left.png')
+        if(scheduleData['remainingTime'] > 0)
+            $("#lift-img").attr('src','img/process_half_left.png')
+        else
+            $("#lift-img").attr('src','img/process_empty_left.png')
         $("#cpu-img").attr('src','img/cpu_on.gif').css('max-height','270px')
-        var elem = processElements[arrayToProcess]
-        var time = elem.value*100
+        var elem = processElements[scheduleData['posi']]
+        var time = scheduleData['processTime']*100
         setTimeout(function(){
             $("#cpu-img").attr('src','img/cpu_off.png').css('max-height','250px')
             moveBack(obj, 'left', 55, nextLift)
-            var img = $('#process-img-'+elem.id).css('left', 915).css('top','650')
-            moveForward(img, 'top', 400, function(){moveBack(img, 'left', 750+(processElements.length*-55))})
+            if(scheduleData['remainingTime'] == 0){
+                var img = $('#process-img-'+elem.id).css('left', 915).css('top','650')
+                moveForward(img, 'top', 400, function(){moveBack(img, 'left', 750+(processElements.length*-55))})
+            }
         }, time)
     }
 }
 
 function nextLift(){
-    processElements.splice(arrayToProcess, 1)
+    if(scheduleData['remainingTime'] > 0){
+        processElements[scheduleData['posi']].duracao = scheduleData['remainingTime']
+        processElements.push(processElements[scheduleData['posi']])
+    }
+    processElements.splice(scheduleData['posi'], 1)
     startLift()
 }
 
 function startToProcess(){
+    if(processElements.length == 0){
+        alert('Adicione ao menos um processo.')
+        return false;
+    }else if($('#quantum').val()<=0){
+        alert('Informe um Quantum positivo.')
+        return false;
+    }
     $('#exampleModal').modal('hide')
+    createProcess(processElements)
     sendProcessToStock(processElements)
 }
 
@@ -149,7 +187,7 @@ function addItem(){
         alert('Favor informar todos os parâmetros!!!')
         return false;
     }
-        
+
     processElements.push({id:id, prioridade: itemPrio, duracao: itemDura, descricao: itemDesc})
     var elem = '<tr><td>'+itemDesc+'</td><td>'+itemPrio+'</td><td>'+itemDura+'</td></tr>'
     $('#tableBody').append(elem)
@@ -160,7 +198,7 @@ function addItem(){
 
 $(document).ready(function(){
     processElements=[]
-    arrayToProcess = 0
+    scheduleData={}
     $('#exampleModal').modal({
         backdrop: 'static',
         focus: true
