@@ -86,7 +86,7 @@ function scheduling(arr){
 }
 
 function fcfs(arr){
-    return {posi: 0, processTime: 0, remainingTime: 0}
+    return {posi: 0, processTime: arr[0].duracao, remainingTime: 0}
 }
 function priority(arr){
     var result = 0
