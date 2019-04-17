@@ -89,16 +89,18 @@ html, body{
     left: 80px;
     width: 250px;
     font-size: 16px;
-    z-index: -1;
+    bottom: -550px;
+    z-index: 9;
 }
 
 .cpu-div label{
     position: absolute;
     text-transform: uppercase;
     color: blue;
-    right: 80px;
+    right: 120px;
     font-size: 16px;
-    z-index: -1;
+    bottom: -550px;
+    z-index: 9;
 }
 
 .row-margin{
