@@ -1,7 +1,7 @@
 function appendProcessDivs(elem){
     $('#process-img-row').append( 
         `
-            <div id="process-img-`+elem.id+`" data-time="`+elem.duracao+`" class="process-img-div">
+            <div id="process-img-`+elem.id+`" data-toggle="tooltip" title="`+elem.descricao+`" data-time="`+elem.duracao+`" class="process-img-div">
                 <label>P: `+elem.id+`</label>
                 <img class="process-img" src="img/process.png">
             </div>
@@ -124,6 +124,7 @@ function startLift(){
         scheduling(processElements)
         var label = 'P: '+processElements[scheduleData['posi']].id
         $("#lift-img-div label").text(label).show().css('left', '60px')
+        obj.attr('title',processElements[scheduleData['posi']].descricao)
         $("#lift-img").attr('src','img/process_full_right.png')
         moveForward(obj, 'left', 950, comeBackLift)
     }
@@ -139,6 +140,7 @@ function comeBackLift(obj){
             $("#lift-img-div label").css('left', '4px')
         }else{
             $("#lift-img-div label").hide()
+            $("#lift-img-div").attr('title','')
             $("#lift-img").attr('src','img/process_empty_left.png')
         }
         $("#cpu-img").attr('src','img/cpu_on.gif').css('max-height','270px')
@@ -207,4 +209,5 @@ $(document).ready(function(){
     })
     $('#addTableItem').on('click', addItem)
     $('#start').on('click',startToProcess)
+    $('[data-toggle="tooltip"]').tooltip()
 })
