@@ -55,11 +55,6 @@
                                 </select>
                             </div>
                             <div class="input-group col-md-4">
-                                <input type="number" id='memory' class="form-control" placeholder="Memoria" aria-label="Memoria" aria-describedby="basic-addon1">
-                            </div>
-                        </div>
-                        <div class="row justify-content-md-center row-margin">
-                            <div class="input-group col-md-4">
                                 <select id="schedulingType">
                                     <option value="fcfs">First Come, First Served</option>
                                     <option value="sjf">Shortest Job First</option>
@@ -73,13 +68,27 @@
                         </div>
                         <div class="row row-margin">
                             <div class="input-group col-md-4">
-                                <input type="text" id='modalItemDesc' class="form-control" placeholder="Descrição" maxlength="10" aria-label="Descrição" aria-describedby="basic-addon1">
+                                <select id="modalItemDesc">
+                                    <option value="">Selecione uma Opção</option>
+                                    <option value="p1">Programa 1</option>
+                                    <option value="p2">Programa 2</option>
+                                    <option value="p3">Programa 3</option>
+                                    <option value="p4">Programa 4</option>
+                                </select>
                             </div>
-                            <div class="input-group col-md-3">
+                            <div class="input-group col-md-2">
                                 <input type="number" id='modalItemPrio' class="form-control" placeholder="Prioridade" aria-label="Prioridade" aria-describedby="basic-addon1">
                             </div>
-                            <div class="input-group col-md-3">
+                            <div class="input-group col-md-2">
                                 <input type="number" id='modalItemDura' class="form-control" placeholder="Duração" aria-label="Duração" aria-describedby="basic-addon1">
+                            </div>
+                            <div class="input-group col-md-2">
+                                <select id="modalItemMemory">
+                                    <option value="1">1Mb</option>
+                                    <option value="2">2Mb</option>
+                                    <option value="3">3Mb</option>
+                                    <option value="4">4Mb</option>
+                                </select>
                             </div>
                             <div class="input-group col-md-2">
                                 <button type="button" id='addTableItem' class="btn btn-dark form-control">+</button>
@@ -92,6 +101,7 @@
                                     <th scope="col">Desc.</th>
                                     <th scope="col">Prioridade</th>
                                     <th scope="col">Duração</th>
+                                    <th scope="col">Memória</th>
                                     </tr>
                                 </thead>
                                 <tbody id='tableBody'>                                    

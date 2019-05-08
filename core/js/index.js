@@ -183,6 +183,7 @@ function addItem(){
     var itemDesc = $('#modalItemDesc').val()
     var itemPrio = $('#modalItemPrio').val()
     var itemDura = $('#modalItemDura').val()
+    var itemMemo = $('#modalItemMemory').val()
     var id = processElements.length+1
     if(id > 5){
         alert('Numero maximo de elementos adicionados!!!')
@@ -192,12 +193,13 @@ function addItem(){
         return false;
     }
 
-    processElements.push({id:id, prioridade: itemPrio, duracao: itemDura, descricao: itemDesc})
-    var elem = '<tr><td>'+itemDesc+'</td><td>'+itemPrio+'</td><td>'+itemDura+'</td></tr>'
+    processElements.push({id:id, prioridade: itemPrio, duracao: itemDura, descricao: itemDesc, memory: itemMemo})
+    var elem = '<tr><td>'+itemDesc+'</td><td>'+itemPrio+'</td><td>'+itemDura+'</td><td>'+itemMemo+'Mb</td></tr>'
     $('#tableBody').append(elem)
     $('#modalItemDesc').val('')
     $('#modalItemPrio').val('')
     $('#modalItemDura').val('')
+    $('#modalItemMemory').val('')
 }
 
 $(document).ready(function(){
