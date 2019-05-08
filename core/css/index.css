@@ -13,6 +13,10 @@ html, body{
     background-color: #343a40;
 }
 
+.white{
+    background-color: whitesmoke;
+}
+
 #content-div{
     /* margin-top: 20px;
     margin-bottom: 20px;

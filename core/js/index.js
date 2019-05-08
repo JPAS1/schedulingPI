@@ -2,7 +2,7 @@ function appendProcessDivs(elem){
     $('#process-img-row').append( 
         `
             <div id="process-img-`+elem.id+`" data-toggle="tooltip" title="`+elem.descricao+`" data-time="`+elem.duracao+`" class="process-img-div">
-                <label>P: `+elem.id+`</label>
+                <label>`+elem.descricao+`</label>
                 <img class="process-img" src="img/process.png">
             </div>
         `)
@@ -17,9 +17,11 @@ function createProcess(processArr){
     }
 }
 
-function createMemory(memoryArr){
+function createMemory(memoryArr, inRed){
+    var inRed = (typeof inRed !== 'undefined') ? inRed : -1;
+    $('#memory-table tbody tr td').remove()
     for(i=0; i < memoryArr.length; i++){
-        var color = memoryArr[i] ? 'black' : ''
+        var color = memoryArr[i] ? 'black' : 'white'
         var line = '<td id="tdMemo-'+i+'" class="'+color+'"></td>'
         $('#memory-table tbody tr').append(line)
     }
@@ -126,11 +128,141 @@ function rr(arr){
     return {posi: 0, processTime: arr[0].duracao, remainingTime: remainingTime}
 }
 
+function memoryFF(arr, memory){
+    var space = 0
+    var posIni = 0
+    for(var i=0; i <= arr.length; i++){
+        if(arr[i] == 0){
+            ++space
+            posIni = posIni == 0 ? i : posIni
+        }else{
+            space = 0
+            posIni = 0
+        }
+        if(memory == space)
+            break;
+    }
+    return posIni
+}
+function memoryNF(arr, memory){
+    var space = 0
+    var posIni = 0
+    var endLoop = false;
+    for(var i=mainMemoryLastSearch; i <= arr.length; i++){
+        if(arr[i] == 0){
+            ++space
+            posIni = posIni == 0 ? i : posIni
+        }else{
+            space = 0
+            posIni = 0
+        }
+        if(memory == space){
+            endLoop = true
+            break;
+        }
+    }
+    if(!endLoop){
+        mainMemoryLastSearch = 0
+        posIni = memoryNF(arr, memory)
+    }else
+        mainMemoryLastSearch = posIni+1
+    return posIni
+}
+function memoryBF(arr, memory){
+    var space = 0
+    var posIni = 0
+    var posiLeng = 0
+    var allPosi = []
+    for(var i=0; i <= arr.length; i++){
+        if(arr[i] == 0){
+            ++space
+            posIni = posIni == 0 ? i : posIni
+        }else{
+            if(posIni != 0 && space >= memory){
+                allPosi[posiLeng].space = space
+                ++posiLeng
+            }
+            space = 0
+            posIni = 0
+        }
+        if(space >= memory){
+            allPosi[posiLeng] = {posIni: posIni, space: space}
+        }
+    }
+    var posIni = 0
+    var minSpace = 0
+    for(var i=0; i < allPosi.length; i++){
+        if(i==0 || allPosi[i].space < minSpace){
+            posIni = allPosi[i].posIni
+            minSpace = allPosi[i].space
+        }
+    }
+    return posIni
+}
+function memoryWF(arr, memory){
+    var space = 0
+    var posIni = 0
+    var posiLeng = 0
+    var allPosi = []
+    for(var i=0; i <= arr.length; i++){
+        if(arr[i] == 0){
+            ++space
+            posIni = posIni == 0 ? i : posIni
+        }else{
+            if(posIni != 0 && space >= memory){
+                allPosi[posiLeng].space = space
+                ++posiLeng
+            }
+            space = 0
+            posIni = 0
+        }
+        if(space >= memory){
+            allPosi[posiLeng] = {posIni: posIni, space: space}
+        }
+    }
+    var posIni = 0
+    var maxSpace = 0
+    for(var i=0; i < allPosi.length; i++){
+        if(i==0 || allPosi[i].space > maxSpace){
+            posIni = allPosi[i].posIni
+            maxSpace = allPosi[i].space
+        }
+    }
+    return posIni
+}
+
+function setMemory(memory){
+    var memoType = $('#memoryType').val()
+    switch(memoType){
+        case 'memoryFF':
+        var iniPos = memoryFF(mainMemory, memory)
+        break
+        case 'memoryNF':
+        var iniPos = memoryNF(mainMemory, memory)
+        break
+        case 'memoryBF':
+        var iniPos = memoryBF(mainMemory, memory)
+        break
+        case 'memoryWF':
+        var iniPos = memoryWF(mainMemory, memory)
+        break
+    }
+    var newMemory = mainMemory.slice()
+    for(var l=0; l < memory; l++){
+        newMemory[iniPos+l] = 1
+    }
+    createMemory(newMemory)
+}
+
+function cleanMemory(){
+    createMemory(mainMemory)
+}
+
 function startLift(){
     if(processElements.length > 0){
         var obj = $("#lift-img-div")
         scheduling(processElements)
-        var label = 'P: '+processElements[scheduleData['posi']].id
+        var label = processElements[scheduleData['posi']].descricao
         $("#lift-img-div label").text(label).show().css('left', '60px')
         obj.attr('title',processElements[scheduleData['posi']].descricao)
         $("#lift-img").attr('src','img/process_full_right.png')
@@ -142,7 +274,7 @@ function comeBackLift(obj){
     var maxLeft = obj.css('left').replace(/[^-\d\.]/g, '')*1
     if(maxLeft < 850)
         setTimeout(function(){comeBackLift(obj)}, 1000)
-    else{
+    else{        
         if(scheduleData['remainingTime'] > 0){
             $("#lift-img").attr('src','img/process_half_left.png')
             $("#lift-img-div label").css('left', '4px')
@@ -152,10 +284,12 @@ function comeBackLift(obj){
             $("#lift-img").attr('src','img/process_empty_left.png')
         }
         $("#cpu-img").attr('src','img/cpu_on.gif').css('max-height','270px')
+        setMemory(processElements[scheduleData['posi']].memory)
         var elem = processElements[scheduleData['posi']]
         var time = scheduleData['processTime']*100
         setTimeout(function(){
             $("#cpu-img").attr('src','img/cpu_off.png').css('max-height','250px')
+            cleanMemory()
             moveBack(obj, 'left', 55, nextLift)
             if(scheduleData['remainingTime'] == 0){
                 var img = $('#process-img-'+elem.id).css('left', 995).css('top','660')
@@ -213,6 +347,7 @@ function addItem(){
 $(document).ready(function(){
     processElements=[]
     mainMemory=[1,1,0,1,1,1,0,0,0,0,1,0,0,1,0,0]
+    mainMemoryLastSearch=0
     scheduleData={}
     $('#exampleModal').modal({
         backdrop: 'static',
