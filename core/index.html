@@ -47,6 +47,19 @@
                     <div class="modal-body">
                         <div class="row justify-content-md-center row-margin">
                             <div class="input-group col-md-4">
+                                <select id="memoryType">
+                                    <option value="fcfs">First Fit</option>
+                                    <option value="sjf">Next Fit</option>
+                                    <option value="priority">Best Fit</option>
+                                    <option value="rr">Worst Fit</option>
+                                </select>
+                            </div>
+                            <div class="input-group col-md-4">
+                                <input type="number" id='memory' class="form-control" placeholder="Memoria" aria-label="Memoria" aria-describedby="basic-addon1">
+                            </div>
+                        </div>
+                        <div class="row justify-content-md-center row-margin">
+                            <div class="input-group col-md-4">
                                 <select id="schedulingType">
                                     <option value="fcfs">First Come, First Served</option>
                                     <option value="sjf">Shortest Job First</option>

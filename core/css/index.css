@@ -15,7 +15,8 @@ html, body{
     height: calc(95% - 40px); */
     width: 1280px;
     height: 720px;
-    background-image: url(../img/Fundo_PI.png);
+    background-image: url(../img/fundo_diferente.gif);
+    background-size: 1600px 818px;
     background-repeat: no-repeat;
     background-attachment: fixed;
     margin: auto;
