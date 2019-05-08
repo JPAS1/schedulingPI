@@ -17,6 +17,14 @@ function createProcess(processArr){
     }
 }
 
+function createMemory(memoryArr){
+    for(i=0; i < memoryArr.length; i++){
+        var color = memoryArr[i] ? 'black' : ''
+        var line = '<td id="tdMemo-'+i+'" class="'+color+'"></td>'
+        $('#memory-table tbody tr').append(line)
+    }
+}
+
 function moveForward(obj, dir, until, callback){
     var inter = setInterval(function(){frame(obj)}, 30)
     function frame(obj){
@@ -204,11 +212,13 @@ function addItem(){
 
 $(document).ready(function(){
     processElements=[]
+    mainMemory=[1,1,0,1,1,1,0,0,0,0,1,0,0,1,0,0]
     scheduleData={}
     $('#exampleModal').modal({
         backdrop: 'static',
         focus: true
     })
+    createMemory(mainMemory)
     $('#addTableItem').on('click', addItem)
     $('#start').on('click',startToProcess)
     $('[data-toggle="tooltip"]').tooltip()
