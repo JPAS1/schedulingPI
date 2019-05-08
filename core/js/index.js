@@ -2,7 +2,7 @@ function appendProcessDivs(elem){
     $('#process-img-row').append( 
         `
             <div id="process-img-`+elem.id+`" data-toggle="tooltip" title="`+elem.descricao+`" data-time="`+elem.duracao+`" class="process-img-div">
-                <label>`+elem.descricao+`</label>
+                <label style="font-size: 9px;">`+elem.descricao+`</label>
                 <img class="process-img" src="img/process.png">
             </div>
         `)
