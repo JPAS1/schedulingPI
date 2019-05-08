@@ -17,6 +17,10 @@ html, body{
     background-color: whitesmoke;
 }
 
+.red{
+    background-color: red;
+}
+
 #content-div{
     /* margin-top: 20px;
     margin-bottom: 20px;

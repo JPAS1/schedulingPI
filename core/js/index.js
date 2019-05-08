@@ -18,10 +18,13 @@ function createProcess(processArr){
 }
 
 function createMemory(memoryArr, inRed){
-    var inRed = (typeof inRed !== 'undefined') ? inRed : -1;
+    var inRed = (typeof inRed !== 'undefined') ? inRed : [];
     $('#memory-table tbody tr td').remove()
     for(i=0; i < memoryArr.length; i++){
-        var color = memoryArr[i] ? 'black' : 'white'
+        if(inRed.indexOf(i) != -1)
+         var color = 'red'
+        else
+            var color = memoryArr[i] ? 'black' : 'white'
         var line = '<td id="tdMemo-'+i+'" class="'+color+'"></td>'
         $('#memory-table tbody tr').append(line)
     }
@@ -165,7 +168,7 @@ function memoryNF(arr, memory){
         mainMemoryLastSearch = 0
         posIni = memoryNF(arr, memory)
     }else
-        mainMemoryLastSearch = posIni+1
+        mainMemoryLastSearch = posIni+parseInt(memory)
     return posIni
 }
 function memoryBF(arr, memory){
@@ -248,10 +251,12 @@ function setMemory(memory){
         break
     }
     var newMemory = mainMemory.slice()
+    var inRed = []
     for(var l=0; l < memory; l++){
         newMemory[iniPos+l] = 1
+        inRed.push(iniPos+l)
     }
-    createMemory(newMemory)
+    createMemory(newMemory, inRed)
 }
 
 function cleanMemory(){
