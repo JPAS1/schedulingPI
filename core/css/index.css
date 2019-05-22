@@ -66,6 +66,14 @@ html, body{
     width: 85px;
 }
 
+#startButton{
+    position: fixed;
+    right: 400px;
+    top: 70px;
+    width: 200px;
+    z-index: 99999999;
+}
+
 .process-img-div{
     z-index: 10;
     margin: 5px;

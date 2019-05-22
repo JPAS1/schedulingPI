@@ -73,16 +73,19 @@ function scheduling(arr){
     var rand = $('#schedulingType').val()
     switch(rand){
         case 'fcfs':
-        var result = fcfs(arr)
+            var result = fcfs(arr)
         break
         case 'sjf':
-        var result = sjf(arr)
+            var result = sjf(arr)
         break
         case 'priority':
-        var result = priority(arr)
+            var result = priority(arr)
         break
         case 'rr':
-        var result = rr(arr)
+            var result = rr(arr)
+        break
+        case 'lt':
+            var result = lt(arr)
         break
     }
     scheduleData = result
@@ -128,7 +131,22 @@ function sjf(arr){
 function rr(arr){
     var quant = $('#quantum').val()
     var remainingTime = arr[0].duracao-quant <= 0 ? 0 : arr[0].duracao-quant
-    return {posi: 0, processTime: arr[0].duracao, remainingTime: remainingTime}
+    var duracao = arr[idx].duracao-quant <= 0 ? arr[idx].duracao : quant
+    return {posi: 0, processTime: duracao, remainingTime: remainingTime}
+}
+function lt(arr){
+    var randomNumbers = [];
+    for(var i=0; i < arr.length; i++){
+        for(var t=0; t <= arr[i].tokens; t++)
+            randomNumbers.push(i)
+    }
+    var idx = Math.floor(Math.random() * randomNumbers.length);
+    var result = randomNumbers[idx]
+    processElements[result].tokens++
+    var quant = $('#quantum').val()
+    var remainingTime = arr[result].duracao-quant <= 0 ? 0 : arr[result].duracao-quant
+    var duracao = arr[result].duracao-quant <= 0 ? arr[result].duracao : quant
+    return {posi: result, processTime: duracao, remainingTime: remainingTime};
 }
 
 function memoryFF(arr, memory){
@@ -340,7 +358,7 @@ function addItem(){
         return false;
     }
 
-    processElements.push({id:id, prioridade: itemPrio, duracao: itemDura, descricao: itemDesc, memory: itemMemo})
+    processElements.push({id:id, prioridade: itemPrio, duracao: itemDura, descricao: itemDesc, memory: itemMemo, tokens: 0})
     var elem = '<tr><td>'+itemDesc+'</td><td>'+itemPrio+'</td><td>'+itemDura+'</td><td>'+itemMemo+'Mb</td></tr>'
     $('#tableBody').append(elem)
     $('#modalItemDesc').val('')
@@ -354,12 +372,15 @@ $(document).ready(function(){
     mainMemory=[1,1,0,1,1,1,0,0,0,0,1,0,0,1,0,0]
     mainMemoryLastSearch=0
     scheduleData={}
-    $('#exampleModal').modal({
-        backdrop: 'static',
-        focus: true
-    })
     createMemory(mainMemory)
     $('#addTableItem').on('click', addItem)
-    $('#start').on('click',startToProcess)
+    $('#startButton').on('click',function(){
+        $('#exampleModal').modal({
+            backdrop: 'static',
+            focus: true
+        })
+        $('#startButton').hide()
+    })
+    $('#start').on('click', startToProcess)
     $('[data-toggle="tooltip"]').tooltip()
 })
