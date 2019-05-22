@@ -68,10 +68,11 @@ html, body{
 
 #startButton{
     position: fixed;
-    right: 400px;
-    top: 70px;
-    width: 200px;
+    left: 30px;
+    top: 38px;
+    width: 1300px;
     z-index: 99999999;
+    cursor: pointer;
 }
 
 .process-img-div{
