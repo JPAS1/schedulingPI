@@ -10,15 +10,17 @@
         <link rel="stylesheet" href="css/index.css">
     </head>
     <body>
+        <audio id="myAudio" src="audio/music.mpeg"  autoplay="autoplay" loop></audio>
         <nav id="top-navbar" class="navbar navbar-dark bg-dark flex-md-nowrap p-0 shadow">
             <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="./index.html">PI - Algoritmos de Escalonamento</a>
+            <a href="document/documentação.pdf" target="_blank"><img src="img/pdf_logo.png" id="pdfButton"></a>
         </nav>
         <div id="content-div" class="container-fluid">
             <div id="content-row" class="row">
                 <img src="img/startButton.gif" id="startButton">
                 <div class="col-md-12">
                     <div id="process-img-row" class="row"></div>
-                    <div id="memory-row" class="row justify-content-md-center"><table id='memory-table' class="table table-bordered col-md-4 text-center"><thead style="background-color: yellow;"><th colspan="16">Memória</th></thead><tbody><tr></tr></tbody></table></div>
+                    <div id="memory-row" class="row justify-content-md-center"><table id='memory-table' class="table table-bordered col-md-4 text-center"><thead style="background-color: yellow;"><th colspan="16">Memória<span id='memory-type'></span></th></thead><tbody><tr></tr></tbody></table></div>
                     <div class="row">
                         <div class="col-md-3">
                             <div id="lift-img-div" data-toggle="tooltip">
@@ -27,7 +29,7 @@
                             </div>
                             <div class="stock-div">
                                 <img id='stockImg' class="stock-img" src="img/stock.gif">
-                                <label for="stockImg">Fila de Processamento</label>
+                                <label for="stockImg">Fila de Processamento<span id='stock-type'></span></label>
                             </div>
                         </div>
                         <div class="col-md-3 offset-md-5">

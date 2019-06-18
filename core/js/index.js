@@ -131,7 +131,7 @@ function sjf(arr){
 function rr(arr){
     var quant = $('#quantum').val()
     var remainingTime = arr[0].duracao-quant <= 0 ? 0 : arr[0].duracao-quant
-    var duracao = arr[idx].duracao-quant <= 0 ? arr[idx].duracao : quant
+    var duracao = arr[0].duracao-quant <= 0 ? arr[0].duracao : quant
     return {posi: 0, processTime: duracao, remainingTime: remainingTime}
 }
 function lt(arr){
@@ -339,6 +339,9 @@ function startToProcess(){
         alert('Informe um Quantum positivo.')
         return false;
     }
+    $('#memory-type').text('('+$('#memoryType option:selected').text()+')')
+    $('#stock-type').text('('+$('#schedulingType').val()+')')
+    document.getElementById("myAudio").play()
     $('#exampleModal').modal('hide')
     createProcess(processElements)
     sendProcessToStock(processElements)
@@ -383,4 +386,6 @@ $(document).ready(function(){
     })
     $('#start').on('click', startToProcess)
     $('[data-toggle="tooltip"]').tooltip()
+
+    
 })
